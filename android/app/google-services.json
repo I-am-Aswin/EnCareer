@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "350007071181",
+    "project_id": "encareer-dtit",
+    "storage_bucket": "encareer-dtit.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350007071181:android:26cdba3de7001ef631f484",
+        "android_client_info": {
+          "package_name": "dtit.project.en_career"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7blv0fTokJ8D2ortuxeASWZl7VQoF0sA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
