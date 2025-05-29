@@ -1,15 +1,19 @@
 // lib/widgets/roadmap_card.dart
-import 'package:en_career/models/enrollment.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:en_career/services/firestore_service.dart';
-import 'package:en_career/services/auth_service.dart';
+import 'package:en_career/models/enrollment.dart';
 import 'package:en_career/screens/home/roadmap_detail_screen.dart';
 
 class RoadmapCard extends StatelessWidget {
   final Enrollment enrollment;
+  final VoidCallback? enrollCallback;
+  final VoidCallback? rollbackCallback;
 
-  const RoadmapCard({Key? key, required this.enrollment}) : super(key: key);
+  const RoadmapCard({
+    Key? key,
+    required this.enrollment,
+    this.enrollCallback,
+    this.rollbackCallback,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +21,7 @@ class RoadmapCard extends StatelessWidget {
       elevation: 3,
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: InkWell(
-        onTap: () async {
-          final authService = Provider.of<AuthService>(context, listen: false);
-          final firestore = FirestoreService();
-          await firestore.enrollInRoadmap(authService.currentUser!.uid, enrollment.roadmapId, enrollment.title);
+        onTap: () {
 
           Navigator.push(
             context,
@@ -37,8 +38,25 @@ class RoadmapCard extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(enrollment.title),
+              Expanded(child: Text(enrollment.title)),
               Chip(label: Text("${enrollment.progress}%")),
+              const SizedBox(width: 10),
+              if (enrollCallback != null || rollbackCallback != null)
+                ElevatedButton.icon(
+                  onPressed: () {
+                    if (rollbackCallback != null) {
+                      rollbackCallback!();
+                    } else if (enrollCallback != null) {
+                      enrollCallback!();
+                    }
+                  },
+                  icon: Icon(
+                    rollbackCallback != null ? Icons.undo : Icons.add,
+                  ),
+                  label: Text(
+                    rollbackCallback != null ? "Rollback" : "Enroll",
+                  ),
+                ),
             ],
           ),
         ),

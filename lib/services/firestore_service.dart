@@ -74,22 +74,27 @@ class FirestoreService {
 
   Future<Map<String, dynamic>> getNodeCompletionStatus(String userId, String roadmapId) async {
     final nodesRef = users.doc(userId).collection("node_completion");
-    final snapshot = await nodesRef.where("roadmap_id", isEqualTo: roadmapId).get();
+    final snapshot = await nodes.where("roadmap_id", isEqualTo: roadmapId).get();
 
-    int completedCount = 0;
-    int total = snapshot.docs.length;
+    double totalWeight = 0;
+    double completedWeight = 0;
 
     for (var doc in snapshot.docs) {
-      if (doc.data()['status'] == 'completed') {
-        completedCount++;
+      final nodeId = (doc.data() as Map<String, dynamic>)['node_id'];
+      final nodeDoc = await FirebaseFirestore.instance.collection("nodes").doc(nodeId).get();
+      final weight = nodeDoc.data()?['weightage'] ?? 10;
+
+      totalWeight += weight;
+      if ((doc.data() as Map<String, dynamic> )['status'] == 'completed') {
+        completedWeight += weight;
       }
     }
 
-    double progress = total > 0 ? (completedCount / total) * 100 : 0;
+    double progress = totalWeight > 0 ? (completedWeight / totalWeight) * 100 : 0;
 
     return {
-      "total": total,
-      "completed": completedCount,
+      "total_weight": totalWeight,
+      "completed_weight": completedWeight,
       "progress": progress.toInt(),
     };
   }
@@ -114,4 +119,19 @@ class FirestoreService {
 
     await userDoc.update({"enrolled_roadmaps": updatedEnrollments});
   }
+
+  // lib/services/firestore_service.dart
+
+  Future<void> rollbackEnrollment(String userId, String roadmapId) async {
+    final userDoc = users.doc(userId);
+    final userData = await userDoc.get();
+
+    List<dynamic> enrollments = (userData.data() as Map<String, dynamic>)['enrolled_roadmaps'] ?? [];
+
+    // Filter out the roadmap to be removed
+    enrollments.removeWhere((e) => e['roadmap_id'] == roadmapId);
+
+    await userDoc.update({"enrolled_roadmaps": enrollments});
+  }
+
 }

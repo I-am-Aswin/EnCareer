@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:en_career/screens/home/dashboard_screen.dart';
 import 'package:en_career/screens/auth/login_screen.dart';
+import 'package:en_career/screens/shared/main_navigation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Career Guidance',
       theme: ThemeData(primarySwatch: Colors.blue),
+      // lib/main.dart
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
             return const SplashScreen();
           }
           if (snapshot.hasData) {
-            return const DashboardScreen();
+            return const MainNavigation(); // <--- Changed
           } else {
             return const LoginScreen();
           }

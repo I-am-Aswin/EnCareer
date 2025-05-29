@@ -23,9 +23,13 @@ class Enrollment {
       roadmapId: map['roadmap_id'],
       title: map['title'],
       status: map['status'],
-      progress: map['progress'],
-      joinedAt: (map['joined_at'] as Timestamp).toDate(),
-      completedAt: map['completed_at'] != null ? (map['completed_at'] as Timestamp).toDate() : null,
+      progress: map['progress'] ?? 0,
+      joinedAt: (map['joined_at'] is Timestamp) ? map['joined_at'].toDate() : DateTime.parse(map['joined_at']),
+      completedAt: map['completed_at'] != null
+          ? (map['completed_at'] is Timestamp)
+          ? map['completed_at'].toDate()
+          : DateTime.parse(map['completed_at'])
+          : null,
     );
   }
 }

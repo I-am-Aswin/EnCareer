@@ -43,10 +43,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
           children: [
             const Text("Ongoing Roadmaps", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () => uploadSampleData(),
-              child: const Text("Upload Sample Data"),
-            ),
+            // ElevatedButton(
+            //   onPressed: () => uploadSampleData(),
+            //   child: const Text("Upload Sample Data"),
+            // ),
             Expanded(
               child: FutureBuilder<List<Enrollment>>(
                 future: futureEnrollments,
