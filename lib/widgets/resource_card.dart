@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 class ResourceCard extends StatelessWidget {
   final resource;
 
-  const ResourceCard({Key? key, required this.resource}) : super(key: key);
+  const ResourceCard({super.key, required this.resource});
 
   void _launchURL() async {
     final url = Uri.parse(resource.link);

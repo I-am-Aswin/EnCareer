@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:en_career/services/auth_service.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();

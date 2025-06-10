@@ -1,6 +1,5 @@
 // lib/services/firestore_service.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:en_career/models/enrollment.dart';
 import 'package:en_career/models/node.dart';
 import 'package:en_career/models/roadmap.dart';
 import 'package:en_career/models/user.dart';

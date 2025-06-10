@@ -3,7 +3,6 @@ import 'package:en_career/models/node.dart';
 import 'package:en_career/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../shared/custom_app_bar.dart';
 import '../../widgets/node_item.dart';
 import 'package:en_career/services/auth_service.dart';
@@ -13,10 +12,10 @@ class RoadmapDetailScreen extends StatefulWidget {
   final String title;
 
   const RoadmapDetailScreen({
-    Key? key,
+    super.key,
     required this.roadmapId,
     required this.title,
-  }) : super(key: key);
+  });
 
   @override
   State<RoadmapDetailScreen> createState() => _RoadmapDetailScreenState();

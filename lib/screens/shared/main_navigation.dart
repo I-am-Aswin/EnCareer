@@ -5,7 +5,7 @@ import 'package:en_career/screens/profile/profile_screen.dart';
 import 'package:en_career/screens/search/roadmap_search_screen.dart';
 
 class MainNavigation extends StatefulWidget {
-  const MainNavigation({Key? key}) : super(key: key);
+  const MainNavigation({super.key});
 
   @override
   State<MainNavigation> createState() => _MainNavigationState();

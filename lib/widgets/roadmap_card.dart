@@ -9,11 +9,11 @@ class RoadmapCard extends StatelessWidget {
   final VoidCallback? rollbackCallback;
 
   const RoadmapCard({
-    Key? key,
+    super.key,
     required this.enrollment,
     this.enrollCallback,
     this.rollbackCallback,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

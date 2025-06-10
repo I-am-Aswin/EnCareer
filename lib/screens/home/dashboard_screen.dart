@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:en_career/widgets/roadmap_card.dart';
 import 'package:en_career/services/auth_service.dart';
-import 'package:en_career/utils/data_upload.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
+  const DashboardScreen({super.key});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();

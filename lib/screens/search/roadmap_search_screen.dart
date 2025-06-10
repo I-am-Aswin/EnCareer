@@ -10,7 +10,7 @@ import 'package:en_career/models/enrollment.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RoadmapSearchScreen extends StatefulWidget {
-  const RoadmapSearchScreen({Key? key}) : super(key: key);
+  const RoadmapSearchScreen({super.key});
 
   @override
   State<RoadmapSearchScreen> createState() => _RoadmapSearchScreenState();
