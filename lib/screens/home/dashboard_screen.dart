@@ -1,9 +1,9 @@
-// lib/screens/home/dashboard_screen.dart
-import 'package:en_career/models/enrollment.dart';
-import 'package:en_career/services/firestore_service.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:en_career/models/enrollment.dart';
 import 'package:en_career/widgets/roadmap_card.dart';
+import 'package:en_career/services/firestore_service.dart';
+import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:en_career/services/auth_service.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -42,16 +42,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
           children: [
             const Text("Ongoing Roadmaps", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
-            // ElevatedButton(
-            //   onPressed: () => uploadSampleData(),
-            //   child: const Text("Upload Sample Data"),
-            // ),
             Expanded(
               child: FutureBuilder<List<Enrollment>>(
                 future: futureEnrollments,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return ListView.builder(
+                      itemCount: 3,
+                      itemBuilder: (context, index) => ShimmerCard(),
+                    );
                   }
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return const Center(child: Text("No ongoing roadmaps"));
@@ -67,6 +66,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ShimmerCard extends StatelessWidget {
+  const ShimmerCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
+      child: Card(
+        elevation: 2,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(width: 100, height: 20, color: Colors.white),
+              Container(width: 40, height: 20, color: Colors.white),
+            ],
+          ),
         ),
       ),
     );

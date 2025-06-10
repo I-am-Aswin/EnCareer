@@ -1,4 +1,3 @@
-// lib/widgets/roadmap_card.dart
 import 'package:flutter/material.dart';
 import 'package:en_career/models/enrollment.dart';
 import 'package:en_career/screens/home/roadmap_detail_screen.dart';
@@ -20,9 +19,10 @@ class RoadmapCard extends StatelessWidget {
     return Card(
       elevation: 3,
       margin: const EdgeInsets.symmetric(vertical: 8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
+        borderRadius: BorderRadius.circular(12),
         onTap: () {
-
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -38,23 +38,48 @@ class RoadmapCard extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(child: Text(enrollment.title)),
-              Chip(label: Text("${enrollment.progress}%")),
-              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      enrollment.title,
+                      style: Theme.of(context).textTheme.titleMedium,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    LinearProgressIndicator(
+                      value: enrollment.progress / 100,
+                      minHeight: 8,
+                      backgroundColor: Colors.grey[300],
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    const SizedBox(height: 4),
+                    Text("${enrollment.progress}% completed")
+                  ],
+                ),
+              ),
               if (enrollCallback != null || rollbackCallback != null)
-                ElevatedButton.icon(
-                  onPressed: () {
-                    if (rollbackCallback != null) {
-                      rollbackCallback!();
-                    } else if (enrollCallback != null) {
-                      enrollCallback!();
-                    }
-                  },
-                  icon: Icon(
-                    rollbackCallback != null ? Icons.undo : Icons.add,
-                  ),
-                  label: Text(
-                    rollbackCallback != null ? "Rollback" : "Enroll",
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      if (rollbackCallback != null) {
+                        rollbackCallback!();
+                      } else if (enrollCallback != null) {
+                        enrollCallback!();
+                      }
+                    },
+                    icon: Icon(
+                      rollbackCallback != null ? Icons.undo : Icons.add,
+                    ),
+                    label: Text(
+                      rollbackCallback != null ? "Rollback" : "Enroll",
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: rollbackCallback != null ? Colors.orange : Colors.blue,
+                    ),
                   ),
                 ),
             ],
