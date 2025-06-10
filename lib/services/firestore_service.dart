@@ -18,9 +18,22 @@ class FirestoreService {
   }
 
   Future<List<Roadmap>> getAllRoadmaps() async {
-    QuerySnapshot snapshot = await roadmaps.get();
+    QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('roadmaps').get();
+    print("Fetched ${snapshot.docs.length} roadmaps"); // This prints 3
+
     return snapshot.docs.map((doc) {
-      return Roadmap.fromMap(doc.data() as Map<String, dynamic>, doc.id);
+      final data = doc.data() as Map<String, dynamic>;
+      print(data);
+      return Roadmap(
+        id: doc.id,
+        title: data['title'] ?? "Demo",
+        domain: data['domain'] ?? "Software Development",
+        duration: data['duration'] ?? "1 M",
+        department: data['department'] ?? "CSE",
+        learners: data['learners'] ?? 10,
+        type: data['type'] ?? "Complete",
+        updatedAt: (data['updated_at'] as Timestamp).toDate() ?? new DateTime(2025)
+      );
     }).toList();
   }
 
@@ -72,8 +85,9 @@ class FirestoreService {
   }
 
   Future<Map<String, dynamic>> getNodeCompletionStatus(String userId, String roadmapId) async {
-    final nodesRef = users.doc(userId).collection("node_completion");
-    final snapshot = await nodes.where("roadmap_id", isEqualTo: roadmapId).get();
+// Query the node_completion sub-collection under the current user
+    final nodeCompletionsRef = users.doc(userId).collection("node_completion");
+    final snapshot = await nodeCompletionsRef.where("roadmap_id", isEqualTo: roadmapId).get();
 
     double totalWeight = 0;
     double completedWeight = 0;

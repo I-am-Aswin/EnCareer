@@ -1,3 +1,4 @@
+// lib/widgets/roadmap_card.dart
 import 'package:flutter/material.dart';
 import 'package:en_career/models/enrollment.dart';
 import 'package:en_career/screens/home/roadmap_detail_screen.dart';
@@ -19,9 +20,7 @@ class RoadmapCard extends StatelessWidget {
     return Card(
       elevation: 3,
       margin: const EdgeInsets.symmetric(vertical: 8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
-        borderRadius: BorderRadius.circular(12),
         onTap: () {
           Navigator.push(
             context,
@@ -35,34 +34,26 @@ class RoadmapCard extends StatelessWidget {
         },
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      enrollment.title,
-                      style: Theme.of(context).textTheme.titleMedium,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
-                    LinearProgressIndicator(
-                      value: enrollment.progress / 100,
-                      minHeight: 8,
-                      backgroundColor: Colors.grey[300],
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                    const SizedBox(height: 4),
-                    Text("${enrollment.progress}% completed")
-                  ],
-                ),
+              Text(
+                enrollment.title,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
+              const SizedBox(height: 8),
+              LinearProgressIndicator(
+                value: enrollment.progress / 100,
+                minHeight: 10,
+                backgroundColor: Colors.grey[300],
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+              const SizedBox(height: 4),
+              Text("${enrollment.progress}% completed"),
+              const SizedBox(height: 12),
               if (enrollCallback != null || rollbackCallback != null)
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
+                Align(
+                  alignment: Alignment.centerRight,
                   child: ElevatedButton.icon(
                     onPressed: () {
                       if (rollbackCallback != null) {
@@ -78,7 +69,8 @@ class RoadmapCard extends StatelessWidget {
                       rollbackCallback != null ? "Rollback" : "Enroll",
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: rollbackCallback != null ? Colors.orange : Colors.blue,
+                      backgroundColor:
+                      rollbackCallback != null ? Colors.orange : Colors.blue,
                     ),
                   ),
                 ),
